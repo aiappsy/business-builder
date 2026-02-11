@@ -1,0 +1,7 @@
+{
+  "name": "Business Builder MVP",
+  "description": "A cross-platform multi-agent business development suite powered by Gemini. Orchestrates ideation, research, and branding agents to help entrepreneurs build from zero.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

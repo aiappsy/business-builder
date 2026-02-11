@@ -1,11 +1,36 @@
-<div align="center">
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# Business Builder MVP
 
-  <h1>Built with AI Studio</h2>
+A full-stack monorepo for building businesses using a multi-agent AI pipeline.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Structure
+- `/api/server`: Node.js Express API (Google Cloud Run ready)
+- `/app/web`: React + Vite Frontend
+- `/app/desktop-tauri`: Tauri Desktop wrapper
+- `/app/mobile-capacitor`: Capacitor Mobile wrapper
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Setup
+1. **Prerequisites**: Node.js 18+, Google Cloud Project with Firestore & Cloud Storage enabled.
+2. **Environment**: Create `.env` in `/api/server`:
+   ```env
+   GEMINI_API_KEY=your_key
+   GCP_PROJECT_ID=your_project_id
+   GCS_BUCKET_NAME=your_bucket
+   PORT=8080
+   ```
+3. **Install**: Run `npm install` in root, `/api/server`, and `/app/web`.
+4. **Dev**: `npm run dev` from root.
 
-</div>
+## Deployment
+### Cloud Run
+1. `cd api/server`
+2. `gcloud builds submit --tag gcr.io/PROJECT_ID/business-builder-api`
+3. `gcloud run deploy business-builder-api --image gcr.io/PROJECT_ID/business-builder-api --platform managed --set-env-vars="GEMINI_API_KEY=...,GCP_PROJECT_ID=..."`
+
+### Tauri (Desktop)
+1. `npm run tauri:build`
+
+### Capacitor (Mobile)
+1. `npm run build:app`
+2. `npm run cap:sync`
+3. `npm run cap:open:android`

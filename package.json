@@ -1,0 +1,20 @@
+
+{
+  "name": "business-builder-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:api": "cd api/server && npm run dev",
+    "dev:app": "cd app/web && npm run dev",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:app\"",
+    "build:app": "cd app/web && npm run build",
+    "tauri:dev": "cd app/desktop-tauri && npm run tauri dev",
+    "tauri:build": "cd app/desktop-tauri && npm run tauri build",
+    "cap:sync": "cd app/mobile-capacitor && npx cap sync",
+    "cap:open:android": "cd app/mobile-capacitor && npx cap open android",
+    "cap:open:ios": "cd app/mobile-capacitor && npx cap open ios"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
