@@ -1,5 +1,15 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { 
+  MessageSquare, 
+  FileText, 
+  Search, 
+  Palette, 
+  Plus, 
+  ChevronRight, 
+  RefreshCw,
+  Rocket
+} from 'lucide-react';
 import { Project, Artifact, Run } from './types';
 import { apiClient } from './api/client';
 import ChatPanel from './components/ChatPanel';
