@@ -9,8 +9,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(cors());
-app.use(express.json());
+// Fix: Explicitly cast middleware to any to avoid type mismatch between connect and express handlers
+app.use(cors() as any);
+app.use(express.json() as any);
 
 // Health check
 app.get('/health', (req, res) => res.send('OK'));

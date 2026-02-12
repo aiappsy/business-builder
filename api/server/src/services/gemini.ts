@@ -4,10 +4,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) throw new Error("GEMINI_API_KEY is required");
-
-const ai = new GoogleGenAI({ apiKey });
+// Fix: Initializing GoogleGenAI using the process.env.API_KEY directly as required.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export async function generateStructuredContent<T>(params: {
   model?: string;
@@ -48,14 +46,8 @@ export async function generateStructuredContent<T>(params: {
 
 export async function chatWithGemini(systemInstruction: string, history: { role: 'user' | 'model', parts: { text: string }[] }[], message: string) {
   const model = 'gemini-3-flash-preview';
-  const chat = ai.chats.create({
-    model,
-    config: { systemInstruction }
-  });
-
-  // Re-play history
-  // Since our helper doesn't expose the underlying chat instance history easily, 
-  // we use the contents array for generateContent as a stateless chat.
+  
+  // Fix: Removed the redundant ai.chats.create and directly using generateContent for stateless conversation context.
   const contents = [...history, { role: 'user', parts: [{ text: message }] }];
   
   const response = await ai.models.generateContent({
