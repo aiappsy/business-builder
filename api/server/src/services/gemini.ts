@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Fix: Initializing GoogleGenAI using the process.env.API_KEY directly as required.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function generateStructuredContent<T>(params: {
   model?: string;
@@ -14,7 +14,7 @@ export async function generateStructuredContent<T>(params: {
   schema: any;
 }): Promise<T> {
   const model = params.model || 'gemini-3-flash-preview';
-  
+
   const response = await ai.models.generateContent({
     model,
     contents: params.prompt,
@@ -25,7 +25,7 @@ export async function generateStructuredContent<T>(params: {
     },
   });
 
-  const text = response.text;
+  const text = (response as any).text;
   if (!text) throw new Error("No response from Gemini");
 
   try {
@@ -40,21 +40,22 @@ export async function generateStructuredContent<T>(params: {
         responseSchema: params.schema
       }
     });
-    return JSON.parse(fixResponse.text) as T;
+    const fixText = (fixResponse as any).text;
+    return JSON.parse(fixText) as T;
   }
 }
 
 export async function chatWithGemini(systemInstruction: string, history: { role: 'user' | 'model', parts: { text: string }[] }[], message: string) {
   const model = 'gemini-3-flash-preview';
-  
+
   // Fix: Removed the redundant ai.chats.create and directly using generateContent for stateless conversation context.
   const contents = [...history, { role: 'user', parts: [{ text: message }] }];
-  
+
   const response = await ai.models.generateContent({
     model,
     contents: contents as any,
     config: { systemInstruction }
   });
 
-  return response.text;
+  return (response as any).text;
 }

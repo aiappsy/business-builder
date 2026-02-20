@@ -15,10 +15,9 @@ A full-stack monorepo for building businesses using a multi-agent AI pipeline.
    ```env
    GEMINI_API_KEY=your_key
    GCP_PROJECT_ID=your_project_id
-   GCS_BUCKET_NAME=your_bucket
    PORT=8080
    ```
-3. **Install**: Run `npm install` in root, `/api/server`, and `/app/web`.
+3. **Install**: Run `npm run install:all` in the root.
 4. **Dev**: `npm run dev` from root.
 
 ## Deployment

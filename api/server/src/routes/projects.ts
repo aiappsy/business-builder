@@ -1,13 +1,13 @@
 
 import { Router } from 'express';
-import { 
-  projectsCol, 
-  getProject, 
-  getArtifacts, 
-  getRuns, 
-  createRun, 
-  updateRun, 
-  saveArtifact 
+import {
+  projectsCol,
+  getProject,
+  getArtifacts,
+  getRuns,
+  createRun,
+  updateRun,
+  saveArtifact
 } from '../services/firestore';
 import { chatWithGemini } from '../services/gemini';
 import { runIdeationSummarizer, runResearchAgent, runBrandingAgent } from '../services/agents';
@@ -32,10 +32,10 @@ projectRouter.post('/', async (req, res) => {
 projectRouter.get('/:id', async (req, res) => {
   const project = await getProject(req.params.id);
   if (!project) return res.status(404).send('Not found');
-  
+
   const artifacts = await getArtifacts(req.params.id);
   const runs = await getRuns(req.params.id);
-  
+
   res.json({ project, artifacts, runs });
 });
 
@@ -75,8 +75,11 @@ projectRouter.post('/:id/stages/:stage/run', async (req, res) => {
   (async () => {
     try {
       const artifacts = await getArtifacts(id);
-      const brief = artifacts.find(a => a.id === 'idea_brief')?.data;
-      const research = artifacts.find(a => a.id === 'research_report')?.data;
+      const briefArtifact = artifacts.find(a => a.id === 'idea_brief');
+      const researchArtifact = artifacts.find(a => a.id === 'research_report');
+
+      const brief = briefArtifact?.data;
+      const research = researchArtifact?.data;
 
       let result;
       if (stage === 'research_report') {
@@ -90,14 +93,14 @@ projectRouter.post('/:id/stages/:stage/run', async (req, res) => {
       }
 
       await saveArtifact(id, stage, result);
-      await updateRun(id, runId, { 
-        status: 'COMPLETED', 
+      await updateRun(id, runId, {
+        status: 'COMPLETED',
         finishedAt: new Date().toISOString(),
         logs: [`${stage} completed successfully.`]
       });
     } catch (error: any) {
-      await updateRun(id, runId, { 
-        status: 'FAILED', 
+      await updateRun(id, runId, {
+        status: 'FAILED',
         finishedAt: new Date().toISOString(),
         logs: [`Error: ${error.message}`]
       });

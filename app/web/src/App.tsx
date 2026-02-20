@@ -1,15 +1,6 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { 
-  MessageSquare, 
-  FileText, 
-  Search, 
-  Palette, 
-  Plus, 
-  ChevronRight, 
-  RefreshCw,
-  Rocket
-} from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+
 import { Project, Artifact, Run } from './types';
 import { apiClient } from './api/client';
 import ChatPanel from './components/ChatPanel';
@@ -68,7 +59,7 @@ export default function App() {
         <div className="text-center p-8 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 max-w-md">
           <h1 className="text-4xl font-black mb-4">Business Builder</h1>
           <p className="text-slate-400 mb-8">From Zero to Venture with Gemini AI Agents.</p>
-          <button 
+          <button
             onClick={handleCreateProject}
             className="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-bold transition-all transform hover:scale-105"
           >
@@ -87,7 +78,7 @@ export default function App() {
           <span className="text-xl font-bold text-blue-600">BB MVP</span>
           <h2 className="font-medium text-gray-500">/ {state.project?.name}</h2>
         </div>
-        <button 
+        <button
           onClick={() => { localStorage.removeItem('current_project_id'); setProjectId(null); }}
           className="text-sm text-gray-400 hover:text-red-500"
         >
@@ -100,18 +91,18 @@ export default function App() {
         {/* Left: Chat & Workflow */}
         <div className="w-1/3 border-r flex flex-col bg-gray-50">
           <div className="p-4 border-b bg-white">
-            <StageControls 
-              projectId={projectId} 
-              artifacts={state.artifacts} 
-              onRunStarted={refreshState} 
+            <StageControls
+              projectId={projectId}
+              artifacts={state.artifacts}
+              onRunStarted={refreshState}
               activeRuns={state.runs.filter(r => r.status === 'RUNNING')}
             />
           </div>
           <div className="flex-1 overflow-hidden">
-            <ChatPanel 
-              projectId={projectId} 
-              history={state.project?.chatHistory || []} 
-              onMessageSent={refreshState} 
+            <ChatPanel
+              projectId={projectId}
+              history={state.project?.chatHistory || []}
+              onMessageSent={refreshState}
             />
           </div>
         </div>

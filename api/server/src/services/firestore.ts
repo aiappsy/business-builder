@@ -11,14 +11,21 @@ const db = new Firestore({
 
 export const projectsCol = db.collection('projects');
 
+export interface Artifact {
+  id: string;
+  stage: string;
+  data: any;
+  updatedAt: string;
+}
+
 export async function getProject(projectId: string) {
   const doc = await projectsCol.doc(projectId).get();
   return doc.exists ? { id: doc.id, ...doc.data() } : null;
 }
 
-export async function getArtifacts(projectId: string) {
+export async function getArtifacts(projectId: string): Promise<Artifact[]> {
   const snapshot = await projectsCol.doc(projectId).collection('artifacts').get();
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Artifact));
 }
 
 export async function getRuns(projectId: string) {

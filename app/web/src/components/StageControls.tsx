@@ -1,5 +1,5 @@
 
-import React from 'react';
+
 import { Artifact, Run } from '../types';
 import { apiClient } from '../api/client';
 
@@ -34,15 +34,14 @@ export default function StageControls({ projectId, artifacts, activeRuns, onRunS
           </span>
         )}
       </div>
-      
+
       <div className="flex gap-2">
         <button
           disabled={!hasBrief || activeRuns.length > 0}
           onClick={() => runStage('research_report')}
-          className={`flex-1 text-xs py-2 rounded-md font-bold transition-all ${
-            !hasBrief ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 
-            hasResearch ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-blue-600 text-white hover:bg-blue-700'
-          }`}
+          className={`flex-1 text-xs py-2 rounded-md font-bold transition-all ${!hasBrief ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :
+              hasResearch ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
         >
           {hasResearch ? '✓ Rerun Research' : 'Run Market Research'}
         </button>
@@ -50,10 +49,9 @@ export default function StageControls({ projectId, artifacts, activeRuns, onRunS
         <button
           disabled={!hasResearch || activeRuns.length > 0}
           onClick={() => runStage('brand_kit')}
-          className={`flex-1 text-xs py-2 rounded-md font-bold transition-all ${
-            !hasResearch ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 
-            artifacts.some(a => a.id === 'brand_kit') ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-blue-600 text-white hover:bg-blue-700'
-          }`}
+          className={`flex-1 text-xs py-2 rounded-md font-bold transition-all ${!hasResearch ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :
+              artifacts.some(a => a.id === 'brand_kit') ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
         >
           Build Brand Kit
         </button>
