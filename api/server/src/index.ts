@@ -15,10 +15,11 @@ app.use(express.json() as any);
 
 // Health check
 app.get('/health', (req, res) => res.send('OK'));
+app.get('/', (req, res) => res.send('Business Builder API Status: Online'));
 
 // Routes
 app.use('/api/projects', projectRouter);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(Number(port), '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${port}`);
 });

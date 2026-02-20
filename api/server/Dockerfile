@@ -4,13 +4,13 @@ FROM node:20-slim AS builder
 # Create app directory
 WORKDIR /app
 
-# Install dependencies
-# Copying package.json and package-lock.json
-COPY package*.json ./
+# Install dependencies for the API server specifically
+# Note: We assume the build context is the root of the monorepo
+COPY api/server/package*.json ./
 RUN npm install
 
-# Bundle app source
-COPY . .
+# Bundle app source from the API server subdirectory
+COPY api/server/ .
 
 # Build TypeScript
 RUN npm run build

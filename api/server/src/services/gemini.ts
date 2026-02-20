@@ -5,7 +5,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Fix: Initializing GoogleGenAI using the process.env.API_KEY directly as required.
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Initializing GoogleGenAI lazily to avoid startup crashes if API key is missing.
+const getAiClient = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.error("CRITICAL: GEMINI_API_KEY is not set in environment.");
+  }
+  return new GoogleGenAI({ apiKey: apiKey || 'dummy-key-to-avoid-crash' });
+};
+
+const ai = getAiClient();
 
 export async function generateStructuredContent<T>(params: {
   model?: string;
